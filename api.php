@@ -1,5 +1,5 @@
 <?php
-
+cors();
 // Database configuration
 require __DIR__ . '/vendor/autoload.php';
 use Firebase\JWT\JWT;
@@ -196,8 +196,8 @@ function createUser()
     $username = $values->username;
     $email = $values->email;
     $password = password_hash($values->password, PASSWORD_DEFAULT);
-    $isActive = $values->isActive;
-    $role = $values->role;
+    $isActive = true;
+    $role = "user";
     $avatar = $values->avatar;
     $stmt = $db->prepare("INSERT INTO User (username, email, password, isActive, role, avatarUrl) VALUES (:username, :email, :password, :isActive, :role, :avatar)");
     $stmt->bindParam(':username', $username);
@@ -472,7 +472,8 @@ function login()
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($user && password_verify($values->password, $user['password']) ) {
         $token = generateJWT($user['id'], $user['username']);
-        echo json_encode($token);
+        $result = (object)array("token"=>$token);
+        echo json_encode($result);
     } else {
         echo 'Invalid username or password';
     }
@@ -559,4 +560,31 @@ function generateJWT($userId, $username): string
         'exp' => time() + (60 * 60) // Expiration time: 1 hour from now
     ];
     return JWT::encode($payload, $secretJWT, 'HS256');
+}
+
+
+
+function cors() {
+
+    // Allow from any origin
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one
+        // you want to allow, and if so:
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    }
+
+    // Access-Control headers are received during OPTIONS requests
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            // may also be using PUT, PATCH, HEAD etc
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+
+        exit(0);
+    }
 }
