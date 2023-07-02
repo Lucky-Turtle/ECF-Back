@@ -282,7 +282,7 @@ function createComment()
     // Example:
     $values = json_decode(file_get_contents('php://input'), false);
     $description = $values->description;
-    $date = $values->date;
+    $date = date("Y-m-d");
     $userId = $values->userId;
     $wishlistId = $values->wishlistId;
     $stmt = $db->prepare("INSERT INTO Comment (description, date, user_id, wishlist_id) VALUES (:description, :date, :userId, :wishlistId)");
@@ -327,12 +327,15 @@ function updateUser($id)
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
     $values = json_decode(file_get_contents('php://input'), false);
     $username = $values->username;
     $email = $values->email;
     if($values->password === $user['password']){
         $password = $values->password;
+
     }else{
+
         $password = password_hash($values->password, PASSWORD_DEFAULT);
     }
     $isActive = $values->isActive;

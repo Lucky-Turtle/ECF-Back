@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo Profil</title>
+</head>
+
+<body>
+<input type="number" name="userIdUpdate" placeholder="User Id" id="userIdUpdate">
+<br>
+<input type="button" name="listCharger" onclick="getUserData()" value="Charger l'utilisateur">
+
+<form id="demoUpdateProfil">
+    <input type="text" id="usernameUpdate" placeholder="Username">
+    <br>
+    <input type="email" id="emailUpdate" placeholder="Email">
+    <br>
+    <input type="password" id="passwordUpdate" placeholder="Password">
+    <br>
+    <input type="url" id="avatarUpdate" placeholder="Avatar (url)">
+    <br>
+    <input type="button" onclick="updateProfil()" value="Update Profile">
+</form>
+
+
+
+
+
+
+
+<div id="displayWishlist">
+
+</div>
+
+
+
+<script src="demoProfil.js"/>
+</body>
+</html>

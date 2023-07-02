@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo display wishlist</title>
+</head>
+<body>
+<div id="wishlistDisplay">
+
+</div>
+<input type="button" id="shareWishlist" value="Copier le lien">
+<div id="wishlistArticles">
+    <table>
+        <thead>
+        <tr>
+            <td>Nom</td>
+            <td>Description</td>
+            <td>Prix</td>
+            <td>Lien</td>
+        </tr>
+        </thead>
+        <tbody id="articleContent">
+
+        </tbody>
+    </table>
+
+</div>
+<br>
+<br>
+<div id="wishlistComment">
+    <input type="number" name="userId" id="userId">
+    <div>
+        <textarea id="sendCommentDiv" placeholder="Entrez votre commentaire"></textarea>
+    </div>
+    <input type="button" id="sendCommentButton" onclick="sendComment()" value="Commenter">
+    <div id="displayComment"></div>
+
+</div>
+
+<script src="demoDisplayWishlist.js"></script>
+</body>
+</html>
