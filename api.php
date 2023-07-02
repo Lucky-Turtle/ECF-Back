@@ -490,7 +490,8 @@ function login()
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($user && password_verify($values->password, $user['password']) ) {
         $token = generateJWT($user['id'], $user['username']);
-        echo json_encode($token);
+        $result = (object)array("token"=>$token);
+        echo json_encode($result);
     } else {
         echo 'Invalid username or password';
     }
@@ -578,6 +579,9 @@ function generateJWT($userId, $username): string
     ];
     return JWT::encode($payload, $secretJWT, 'HS256');
 }
+
+
+
 function cors() {
 
     // Allow from any origin
