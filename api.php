@@ -1,5 +1,16 @@
 <?php
-
+cors();
+//header('Access-Control-Allow-Origin: *');
+//header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
+//header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization,Token");
+//header('Content-Type: application/json');
+//$method = $_SERVER['REQUEST_METHOD'];
+//if ($method == "OPTIONS") {
+//    header('Access-Control-Allow-Origin: *');
+//    header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+//    header("HTTP/1.1 200 OK");
+//    die();
+//}
 // Database configuration
 require __DIR__ . '/vendor/autoload.php';
 use Firebase\JWT\JWT;
@@ -9,7 +20,6 @@ $dbHost = 'localhost';
 $dbUser = 'root';
 $dbPassword = '';
 $dbName = 'ecf_back';
-
 $secretJWT = "secretJWT";
 
 // Establish database connection
@@ -182,7 +192,7 @@ function getWishlists()
 function createUser()
 {
     global $db;
-
+    var_dump($_POST);
     $values = json_decode(file_get_contents('php://input'), false);
     $stmt = $db->prepare("SELECT * FROM User WHERE username = :username OR email = :email");
     $stmt->bindParam(':username', $values->username);
@@ -196,8 +206,8 @@ function createUser()
     $username = $values->username;
     $email = $values->email;
     $password = password_hash($values->password, PASSWORD_DEFAULT);
-    $isActive = $values->isActive;
-    $role = $values->role;
+    $isActive = true;
+    $role = "user";
     $avatar = $values->avatar;
     $stmt = $db->prepare("INSERT INTO User (username, email, password, isActive, role, avatarUrl) VALUES (:username, :email, :password, :isActive, :role, :avatar)");
     $stmt->bindParam(':username', $username);
@@ -311,12 +321,20 @@ function createArticleToWishlist($articleId, $wishlistId)
 function updateUser($id)
 {
     global $db;
-    // Implement your logic to update a user by ID
-    // Example:
+
+    //Get User by ID
+    $stmt = $db->prepare("SELECT * FROM User WHERE id = :id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $values = json_decode(file_get_contents('php://input'), false);
     $username = $values->username;
     $email = $values->email;
-    $password = password_hash($values->password, PASSWORD_DEFAULT);
+    if($values->password === $user['password']){
+        $password = $values->password;
+    }else{
+        $password = password_hash($values->password, PASSWORD_DEFAULT);
+    }
     $isActive = $values->isActive;
     $role = $values->role;
     $avatar = $values->avatar;
@@ -559,4 +577,28 @@ function generateJWT($userId, $username): string
         'exp' => time() + (60 * 60) // Expiration time: 1 hour from now
     ];
     return JWT::encode($payload, $secretJWT, 'HS256');
+}
+function cors() {
+
+    // Allow from any origin
+    if (isset($_SERVER['HTTP_ORIGIN'])) {
+        // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one
+        // you want to allow, and if so:
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');    // cache for 1 day
+    }
+
+    // Access-Control headers are received during OPTIONS requests
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            // may also be using PUT, PATCH, HEAD etc
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE,PATCH");
+
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+
+        exit(0);
+    }
 }
