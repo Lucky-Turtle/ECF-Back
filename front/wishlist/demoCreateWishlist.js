@@ -4,7 +4,7 @@ function createList(){
     let nameWishList = data.get("nameOfWishList");
     let description = data.get("descriptionOfWishList");
     let userId = data.get("userId")
-    fetch("http://localhost/ecfBack/api.php/api/wishlist", {
+    fetch("http://ecf-back.alwaysdata.net/api.php/api/wishlist", {
         method: "POST",
         headers:{
             "Token": localStorage.getItem("token")

@@ -16,10 +16,10 @@ require __DIR__ . '/vendor/autoload.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-$dbHost = 'localhost';
-$dbUser = 'root';
-$dbPassword = '';
-$dbName = 'ecf_back';
+$dbHost = 'mysql-ecf-back.alwaysdata.net';
+$dbUser = 'ecf-back_server';
+$dbPassword = 'server12server!';
+$dbName = 'ecf-back_db';
 $secretJWT = "secretJWT";
 
 // Establish database connection

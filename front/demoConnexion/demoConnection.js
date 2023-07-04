@@ -6,7 +6,7 @@ function register() {
     let password = data.get("password");
     let avatar = data.get("avatar");
 
-    fetch("http://localhost/ecfBack/api.php/api/user", {
+    fetch("http://ecf-back.alwaysdata.net/api.php/api/user", {
         method: "POST",
         body: JSON.stringify({
             "username": username,
@@ -24,7 +24,7 @@ function connection() {
     let data = new FormData(form);
     let username = data.get("username");
     let password = data.get("password");
-    fetch("http://localhost/ecfBack/api.php/api/login", {
+    fetch("http://ecf-back.alwaysdata.net/api.php/api/login", {
         method: "POST",
         body: JSON.stringify({
             "username": username,

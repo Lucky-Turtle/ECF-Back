@@ -5,7 +5,7 @@ function listCharger(){
 }
 
 function getWishList(userId){
-    fetch(`http://localhost/ecfBack/api.php/api/user/wishlists?id=${userId}`, {
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/user/wishlists?id=${userId}`, {
         method: "GET"
     }).then(async response =>{
         let data = await response.json();
@@ -18,7 +18,7 @@ function getWishList(userId){
     })
 }
 function getArticleList() {
-    fetch("http://localhost/ecfBack/api.php/api/articles", {
+    fetch("http://ecf-back.alwaysdata.net/api.php/api/articles", {
         method: "GET"
     }).then(async response =>{
         let data = await response.json();
@@ -36,7 +36,7 @@ function addArticleToWishlist(){
     let listId = document.querySelector("#userWishLists").value;
     let articleId = document.querySelector("#listOfArticles").value;
     console.log(localStorage.getItem("token"))
-    fetch(`http://localhost/ecfBack/api.php/api/addArticle/wishlist?articleId=${articleId}&wishlistId=${listId}`, {
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/addArticle/wishlist?articleId=${articleId}&wishlistId=${listId}`, {
         method: "POST",
         headers:{
             "Token": localStorage.getItem("token")

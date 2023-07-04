@@ -10,7 +10,7 @@ getWishList()
 }
 function getWishList(userId){
     let wishlistTop = document.querySelector("#wishlistDisplay");
-    fetch(`http://localhost/ecfBack/api.php/api/wishlist?id=${wishlistId}`, {
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/wishlist?id=${wishlistId}`, {
         method: "GET"
     }).then(async response =>{
         let data = await response.json();
@@ -21,7 +21,7 @@ function getWishList(userId){
 
 function getWishlistArticles(){
     let articleContent = document.querySelector("#articleContent");
-    fetch(`http://localhost/ecfBack/api.php/api/wishlist/articles?id=${wishlistId}`, {
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/wishlist/articles?id=${wishlistId}`, {
         method: "GET"
     }).then(async response =>{
         let data = await response.json();
@@ -39,7 +39,7 @@ function getWishlistArticles(){
 
 function getWishlistComment() {
     let wishlistComment = document.querySelector("#displayComment");
-    fetch(`http://localhost/ecfBack/api.php/api/wishlist/comments?id=${wishlistId}`, {
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/wishlist/comments?id=${wishlistId}`, {
         method: "GET"
     }).then(async response =>{
         let data = await response.json();
@@ -55,7 +55,7 @@ function getWishlistComment() {
 function sendComment(){
     let description = document.querySelector("#sendCommentDiv").value;
     let userId = document.querySelector("#userId").value;
-    fetch(`http://localhost/ecfBack/api.php/api/comment`, {
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/comment`, {
         method: "POST",
         headers:{
             "Token": localStorage.getItem("token")

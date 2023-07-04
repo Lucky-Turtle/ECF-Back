@@ -6,7 +6,7 @@ function updateProfil(userIdUpdate){
     let passwordUpdate = document.querySelector("#passwordUpdate").value;
     let avatarUpdate = document.querySelector("#avatarUpdate").value;
 
-    fetch(`http://localhost/ecfBack/api.php/api/user?id=${userData.id}`, {
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/user?id=${userData.id}`, {
         method: "PUT",
         headers:{
             "Token": localStorage.getItem("token")
@@ -26,7 +26,7 @@ function getUserData(){
     let userIdUpdate = document.querySelector("#userIdUpdate").value;
     console.log(userIdUpdate);
 
-    fetch(`http://localhost/ecfBack/api.php/api/user?id=${userIdUpdate}`,{
+    fetch(`http://ecf-back.alwaysdata.net/api.php/api/user?id=${userIdUpdate}`,{
         method: "GET"
     }).then(async response=>{
         userData = await response.json();
